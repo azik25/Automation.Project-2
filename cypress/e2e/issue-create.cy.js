@@ -54,18 +54,9 @@ describe('Issue create', () => {
     });
   });
   
-  it('Creating a new issue using the random data plugin.', () => {
-
-    cy.get('[data-testid="modal:issue-create"]').within(() => {
-      cy.get('[data-testid="select:type"]').click();
-  })
-  })
   
   
-  
-  
-  
-  it('Should create an issue and validate it successfully', () => {
+it('Creating a new issue using the random data plugin.', () => {
     cy.get('[data-testid="modal:issue-create"]').within(() => {
     
     cy.get('[data-testid="select:type"]').click();
@@ -112,13 +103,5 @@ describe('Issue create', () => {
     cy.get('[data-testid="form-field:title"]').should('contain', 'This field is required');
     });
   });
-  
-  it('Creating a new issue using the random data plugin.', () => {
-
-    cy.get('[data-testid="modal:issue-create"]').within(() => {
-    cy.get('[data-testid="select:type"]').click();
-  })
-  })
-  
 });
 
