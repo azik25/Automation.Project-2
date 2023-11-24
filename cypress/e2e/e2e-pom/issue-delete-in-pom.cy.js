@@ -1,43 +1,25 @@
-describe('Issue deleting', () => {
+
+import IssueModal from "../../pages/IssueModal";
+
+describe('Issue delete', () => {
   beforeEach(() => {
     cy.visit('/');
-    cy.url().should('eq', `${Cypress.env('baseUrl')}project`).then((url) => {
-      cy.visit(url + '/board');
-      cy.contains('This is an issue of type: Task.').click();
-    });
-  });
-    it('Should delete an issue', () => { 
-      cy.get('[data-testid="modal:issue-details"]').should('be.visible');
-      cy.get('[data-testid="icon:trash"]').click();
-      cy.get('[data-testid="modal:confirm"]').should('be.visible').within(() => {
-      cy.contains('Delete issue').click();
-    });
-      
-      cy.get('[data-testid="modal:confirm"]').should('not.exist');
-
-      cy.get('[data-testid="board-list:backlog').should('be.visible').and('have.length', '1').within(() => {
-      cy.get('[data-testid="list-issue"]').should('have.length', '3')
-
-      cy.contains('This is an issue of type: Task.').should('not.exist')
-      });
-
-
-  });
-
-    it('Should cancel deleting the issue ', () => {
-      
-      cy.get('[data-testid="modal:issue-details"]').should('be.visible');
-      cy.get('[data-testid="icon:trash"]').click();
-      cy.get('[data-testid="modal:confirm"]').should('be.visible').within(() => {
-      cy.contains('Cancel').click();
-    });
+    cy.url().should('eq', `${Cypress.env('baseUrl')}project/board`).then((url) => {
     
-      cy.get('[data-testid="modal:confirm"]').should('not.exist');
-
-      cy.get('[data-testid="board-list:backlog').should('be.visible').and('have.length', '1').within(() => {
-      cy.get('[data-testid="list-issue"]').should('have.length', '4')
-
-      cy.contains('This is an issue of type: Task.').should('be.visible');
+    cy.contains(issueTitle).click();
     });
+  });
+const issueTitle = 'This is an issue of type: Task.';
+
+  it('Should delete issue successfully', () => {
+    IssueModal.clickDeleteButton()
+    IssueModal.confirmDeletion()
+    IssueModal.ensureIssueIsNotVisibleOnBoard(issueTitle)
+  });
+  it('Should cancel deletion process successfully', () => {
+    IssueModal.clickDeleteButton()
+    IssueModal.cancelDeletion()
+    IssueModal.closeDetailModal()
+    IssueModal.ensureIssueIsVisibleOnBoard(issueTitle)
   });
 });
